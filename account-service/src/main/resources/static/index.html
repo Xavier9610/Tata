@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Banco - Operaciones</title>
+  <link rel="stylesheet" href="/app.css">
+</head>
+<body>
+  <main>
+    <h1>Banco</h1>
+    <p class="hint">Clientes, cuentas, movimientos y estado de cuenta. API: <a href="/swagger-ui/index.html">Swagger</a></p>
+    <section><h2>Crear cliente</h2><form id="client"><input name="nombres" placeholder="Nombres" required><input name="direccion" placeholder="Dirección" required><input name="telefono" placeholder="Teléfono" required><input name="contrasena" type="password" placeholder="Contraseña" required><input name="identificacion" placeholder="Identificación" required><label>Estado <input name="estado" type="checkbox" checked></label><button>Crear cliente</button></form></section>
+    <section><h2>Crear cuenta</h2><form id="account"><input name="numeroCuenta" placeholder="Número de cuenta" required><select name="tipo"><option>AHORRO</option><option>CORRIENTE</option></select><input name="saldoInicial" type="number" min="0" step=".01" placeholder="Saldo inicial" required><input name="clienteIdentificacion" placeholder="Cliente (identificación)" required><label>Estado <input name="estado" type="checkbox" checked></label><button>Crear cuenta</button></form></section>
+    <section><h2>Registrar movimiento</h2><form id="movement"><input name="numeroCuenta" placeholder="Número de cuenta" required><select name="tipoMovimiento"><option>DEPOSITO</option><option>RETIRO</option></select><input name="valor" type="number" min=".01" step=".01" placeholder="Valor" required><label>Estado <input name="estado" type="checkbox" checked></label><button>Registrar</button></form></section>
+    <section><h2>Estado de cuenta</h2><form id="report"><input name="identificacion" placeholder="Identificación (opcional)"><input name="fechaInicio" type="date"><input name="fechaFin" type="date"><button>Consultar</button></form><pre id="output">Listo.</pre></section>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>

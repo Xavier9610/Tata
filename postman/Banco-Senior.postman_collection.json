@@ -1,0 +1,10 @@
+{
+  "info":{"name":"Banco Senior","schema":"https://schema.getpostman.com/json/collection/v2.1.0/collection.json"},
+  "variable":[{"key":"clientUrl","value":"http://localhost:8081"},{"key":"accountUrl","value":"http://localhost:8082"}],
+  "item":[
+    {"name":"Crear cliente","request":{"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"url":"{{clientUrl}}/clientes","body":{"mode":"raw","raw":"{\n  \"name\": \"Jose Lema\", \"gender\": \"M\", \"age\": 30, \"identification\": \"1717171717\", \"address\": \"Otavalo sn y principal\", \"phone\": \"098254785\", \"clientId\": \"jose\", \"password\": \"1234\", \"active\": true\n}"}}},
+    {"name":"Crear cuenta","request":{"method":"POST","header":[{"key":"Content-Type","value":"application/json"}],"url":"{{accountUrl}}/cuentas","body":{"mode":"raw","raw":"{\"number\":\"478758\",\"type\":\"AHORRO\",\"openingBalance\":2000,\"active\":true,\"clientId\":\"jose\"}"}}},
+    {"name":"Registrar retiro","request":{"method":"POST","header":[{"key":"Content-Type","value":"application/json"},{"key":"Idempotency-Key","value":"{{$guid}}"}],"url":"{{accountUrl}}/movimientos","body":{"mode":"raw","raw":"{\"accountNumber\":\"478758\",\"type\":\"RETIRO\",\"amount\":575}"}}},
+    {"name":"Estado de cuenta","request":{"method":"GET","url":"{{accountUrl}}/reportes?clienteId=jose&fechaInicio=2022-01-01&fechaFin=2030-12-31"}}
+  ]
+}

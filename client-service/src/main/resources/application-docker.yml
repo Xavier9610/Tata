@@ -1,0 +1,6 @@
+spring:
+  jpa: { hibernate: { ddl-auto: validate } }
+  rabbitmq: { listener: { simple: { auto-startup: true } } }
+bank:
+  messaging:
+    enabled: true

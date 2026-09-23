@@ -1,0 +1,22 @@
+server:
+  port: 8082
+spring:
+  application:
+    name: account-service
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:h2:mem:accounts;MODE=PostgreSQL;DB_CLOSE_DELAY=-1}
+    username: ${SPRING_DATASOURCE_USERNAME:sa}
+    password: ${SPRING_DATASOURCE_PASSWORD:}
+  jpa:
+    hibernate: { ddl-auto: update }
+    open-in-view: false
+  rabbitmq:
+    host: "${SPRING_RABBITMQ_HOST:localhost}"
+    listener:
+      simple:
+        auto-startup: "${RABBIT_LISTENER_AUTO_STARTUP:false}"
+  jackson: { default-property-inclusion: non_null }
+management:
+  endpoints:
+    web:
+      exposure: { include: health,info }

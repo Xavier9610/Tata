@@ -1,0 +1,36 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment: { POSTGRES_USER: postgres, POSTGRES_PASSWORD: postgres }
+    ports: ["5432:5432"]
+    volumes: ["postgres-data:/var/lib/postgresql/data", "./BaseDatos.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro"]
+    healthcheck: { test: ["CMD-SHELL", "pg_isready -U postgres"], interval: 5s, timeout: 5s, retries: 12 }
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    ports: ["5672:5672", "15672:15672"]
+    healthcheck: { test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"], interval: 5s, timeout: 5s, retries: 12 }
+  client-service:
+    build:
+      context: .
+      dockerfile: client-service/Dockerfile
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/banco_clientes
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_RABBITMQ_HOST: rabbitmq
+    ports: ["8081:8081"]
+    depends_on: { postgres: { condition: service_healthy }, rabbitmq: { condition: service_healthy } }
+  account-service:
+    build:
+      context: .
+      dockerfile: account-service/Dockerfile
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/banco_cuentas
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_RABBITMQ_HOST: rabbitmq
+    ports: ["8082:8082"]
+    depends_on: { postgres: { condition: service_healthy }, rabbitmq: { condition: service_healthy } }
+volumes: { postgres-data: {} }

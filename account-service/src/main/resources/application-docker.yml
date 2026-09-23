@@ -1,0 +1,4 @@
+spring:
+  # Permite evolucionar de forma no destructiva un volumen local ya creado.
+  jpa: { hibernate: { ddl-auto: update } }
+  rabbitmq: { listener: { simple: { auto-startup: true } } }
